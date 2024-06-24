@@ -1,0 +1,36 @@
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Mesure {
+  idMesure     Int       @id @default(autoincrement())
+  dateHeure    DateTime
+  temperature  Float
+  humidite     Float
+  stationMeteo StationMeteo @relation(fields: [stationMeteoId], references: [idStation])
+  stationMeteoId Int
+}
+
+model StationMeteo {
+  idStation  Int       @id @default(autoincrement())
+  nom        String
+  localisation String
+  mesures    Mesure[]
+}
+
+model Statistiques {
+  idStat           Int      @id @default(autoincrement())
+  maxTemperature   Float
+  minTemperature   Float
+  moyTemperature   Float
+  maxHumidite      Float
+  minHumidite      Float
+  moyHumidite      Float
+  debutTranche     DateTime
+  finTranche       DateTime
+}
